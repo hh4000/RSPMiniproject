@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-img = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Training set\1.jpg',1)
+img = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Training set\2.jpg',1)
 
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 cv2.imshow('hsv',hsv)
@@ -46,7 +46,6 @@ closedGrassland = closing(grassland,42)
 ocean = tileDetection(190,215,0,100,0,100)
 closedOcean = closing(ocean,42)
 
-#It kinda works, but is a little not optimal
 forest = tileDetection(90,110,30,70,10,50)
 closedForest = closing(forest,45)
 
@@ -56,6 +55,8 @@ closedDesert = closing(desert,42)
 swamp = tileDetection(35,55,30,60,35,50)
 closedSwamp = closing(swamp,42)
 
+mountain = tileDetection(0,179,0,20,0,20)
+closedmountain = closing(mountain,61)
 
 #Showing all the images
 #cv2.imshow('grassland',grassland)
@@ -68,7 +69,8 @@ closedSwamp = closing(swamp,42)
 #cv2.imshow('closedDesert',closedDesert)
 #cv2.imshow('swamp',swamp)
 #cv2.imshow('closedSwamp',closedSwamp)
-
+#cv2.imshow('mountain',mountain)
+#cv2.imshow('closedmountain',closedmountain)
 
 
 
