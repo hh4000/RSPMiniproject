@@ -12,20 +12,18 @@ cv2.imshow('hsv',hsv)
 def tileDetection(hueLow,hueUp,satLow, satUp, valLow, valUp):
     #We turn the percentages into 8 bit intergers
     #The values are then inserted into two arrays for the lower and upper bound
-    lowerBound = np.array([int(hueLow/1.411),int(satLow*2.55),int(valLow*2.55)])
-    upperBound = np.array([int(hueUp/1.411), int(satUp*2.55), int(valUp*2.55)])
+    lowerBound = np.array([int(hueLow/2),int(satLow*2.55),int(valLow*2.55)])
+    upperBound = np.array([int(hueUp/2), int(satUp*2.55), int(valUp*2.55)])
     #The bounds are then put into an array that can be returned
     bounds = np.array([lowerBound,upperBound])
     #The mask uses the lower and upper bounds to tell wether to save the pixel or not
     mask = cv2.inRange(hsv,bounds[0], bounds[1])
     #This uses the mask to check for the colors then only shows the colors that fit within the threshold
     result = cv2.bitwise_and(img, img, mask=mask)
-    return result
+    medianBlur = cv2.medianBlur(result,5)
+    return medianBlur
 
-
-#I have found values for the grasslands and have inserted them into the funtion
-grassland = tileDetection(50,100,70,100,55,65) 
-
+#A function that "closes" the tile type 
 def closing(tile,kernelSize):
     #Turning the image binary so that "closing" can be performed
     result_gray = cv2.cvtColor(tile, cv2.COLOR_BGR2GRAY)
@@ -41,11 +39,39 @@ def closing(tile,kernelSize):
         closing = cv2.morphologyEx(blackAndWhiteImage, cv2.MORPH_CLOSE, kernel)
     return closing
 
+#I have found values for each tile type and have inserted them into the funtions
+grassland = tileDetection(70,95,70,90,50,70) 
 closedGrassland = closing(grassland,42)
 
+ocean = tileDetection(190,215,0,100,0,100)
+closedOcean = closing(ocean,42)
+
+#It kinda works, but is a little not optimal
+forest = tileDetection(90,110,30,70,10,50)
+closedForest = closing(forest,45)
+
+desert = tileDetection(45,55,85,100,70,85)
+closedDesert = closing(desert,42)
+
+swamp = tileDetection(35,55,30,60,35,50)
+closedSwamp = closing(swamp,42)
+
+
 #Showing all the images
-cv2.imshow('result',grassland)
-cv2.imshow('closing', closedGrassland)
+#cv2.imshow('grassland',grassland)
+#cv2.imshow('closedGrassland', closedGrassland)
+#cv2.imshow('ocean',ocean)
+#cv2.imshow('closedOcean', closedOcean)
+#cv2.imshow('forest',forest)
+#cv2.imshow('closedForest',closedForest)
+#cv2.imshow('desert',desert)
+#cv2.imshow('closedDesert',closedDesert)
+#cv2.imshow('swamp',swamp)
+#cv2.imshow('closedSwamp',closedSwamp)
+
+
+
+
 cv2.waitKey()
 
 #Hvis vi har det i HSV kunne man så måske bruge en template af en hsv farvet krone fordi den er rød med gul-ish i midten
