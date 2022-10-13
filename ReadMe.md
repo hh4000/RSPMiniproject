@@ -1,2 +1,3 @@
 # Image processing mini project
-eyo wassup
+Authors: Hans Henrik Dalgaard,
+         Silas Porsgaard Stensgaard
