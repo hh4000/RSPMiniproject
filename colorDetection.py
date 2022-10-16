@@ -60,7 +60,7 @@ swamp = tileDetection(35,55,30,60,35,50)
 closedSwamp = closing(swamp,42)
 
 mountain = tileDetection(0,179,0,20,0,20)
-closedmountain = closing(mountain,61)
+closedMountain = closing(mountain,61)
 
 #Showing all the images
 #cv.imshow('grassland',grassland)
