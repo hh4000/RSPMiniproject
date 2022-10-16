@@ -15,7 +15,7 @@ def identifyTiles():#must be changed to take argument (for varying input image)
     
 
     Returns:
-        numpy.chararray: char array with identified tile types. Grasslands = 'g', Ocean = 'o', Forest = 'f', Desert = 'd', Swamp = 's', Mountain = 'm', Error = 'E', Unidentified = 'Ø'
+        numpy.chararray: char array with identified tile types. Grasslands = 'g', Ocean = 'o', Forest = 'f', Desert = 'd', Swamp = 's', Mountain = 'm', Error = 'E', Unidentified = 'U'
     """
     #array of closed colordetected image
     tileTypes = [closedGrassland,closedOcean,closedForest,closedDesert,closedSwamp,closedMountain]
@@ -39,11 +39,11 @@ def identifyTiles():#must be changed to take argument (for varying input image)
                     #if no error type is set accordingly
                         tiles[y,x] = tileChar[n]
                         
-    # checks if any tiles are unidentfied. In that case, type is set as 'Ø'
+    # checks if any tiles are unidentfied. In that case, type is set as 'U'
     for y, tileRow in enumerate(tiles):
         for x, tile in enumerate(tileRow):
             if tile == "":
-                tiles[y,x] = "Ø"
+                tiles[y,x] = "U"
     return tiles
 
 print(identifyTiles())
