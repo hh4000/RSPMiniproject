@@ -1,4 +1,4 @@
-import cv2
+import cv2 as cv
 import numpy as np
 
 #silas path
@@ -6,10 +6,10 @@ import numpy as np
 #hans path
 path = r'C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\Training set\2.jpg'
 
-img = cv2.imread(path,1)
+img = cv.imread(path,1)
 
-hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-cv2.imshow('hsv',hsv)
+hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+cv.imshow('hsv',hsv)
 
 
 #A function that takes the hue, and saturation(%) and value(%) (hsv) and detects the chosen colors
@@ -21,17 +21,17 @@ def tileDetection(hueLow,hueUp,satLow, satUp, valLow, valUp):
     #The bounds are then put into an array that can be returned
     bounds = np.array([lowerBound,upperBound])
     #The mask uses the lower and upper bounds to tell wether to save the pixel or not
-    mask = cv2.inRange(hsv,bounds[0], bounds[1])
+    mask = cv.inRange(hsv,bounds[0], bounds[1])
     #This uses the mask to check for the colors then only shows the colors that fit within the threshold
-    result = cv2.bitwise_and(img, img, mask=mask)
-    medianBlur = cv2.medianBlur(result,5)
+    result = cv.bitwise_and(img, img, mask=mask)
+    medianBlur = cv.medianBlur(result,5)
     return medianBlur
 
 #A function that "closes" the tile type 
 def closing(tile,kernelSize):
     #Turning the image binary so that "closing" can be performed
-    result_gray = cv2.cvtColor(tile, cv2.COLOR_BGR2GRAY)
-    (thresh, blackAndWhiteImage) = cv2.threshold(result_gray, 10, 255, cv2.THRESH_BINARY)
+    result_gray = cv.cvtColor(tile, cv.COLOR_BGR2GRAY)
+    (thresh, blackAndWhiteImage) = cv.threshold(result_gray, 10, 255, cv.THRESH_BINARY)
     #You determine the maximum size of the kernel you want to use
     closing = 0
     #The loop goes through many closings of increasing sizes
@@ -40,7 +40,7 @@ def closing(tile,kernelSize):
         #The size of the kernel changes along with how far the loop is
         kernel = np.ones([x+1,x+1],np.uint8)
         #The closing is then performed
-        closing = cv2.morphologyEx(blackAndWhiteImage, cv2.MORPH_CLOSE, kernel)
+        closing = cv.morphologyEx(blackAndWhiteImage, cv.MORPH_CLOSE, kernel)
     return closing
 
 #I have found values for each tile type and have inserted them into the funtions
@@ -63,22 +63,22 @@ mountain = tileDetection(0,179,0,20,0,20)
 closedmountain = closing(mountain,61)
 
 #Showing all the images
-#cv2.imshow('grassland',grassland)
-#cv2.imshow('closedGrassland', closedGrassland)
-#cv2.imshow('ocean',ocean)
-#cv2.imshow('closedOcean', closedOcean)
-#cv2.imshow('forest',forest)
-#cv2.imshow('closedForest',closedForest)
-#cv2.imshow('desert',desert)
-#cv2.imshow('closedDesert',closedDesert)
-#cv2.imshow('swamp',swamp)
-#cv2.imshow('closedSwamp',closedSwamp)
-#cv2.imshow('mountain',mountain)
-#cv2.imshow('closedmountain',closedmountain)
+#cv.imshow('grassland',grassland)
+#cv.imshow('closedGrassland', closedGrassland)
+#cv.imshow('ocean',ocean)
+#cv.imshow('closedOcean', closedOcean)
+#cv.imshow('forest',forest)
+#cv.imshow('closedForest',closedForest)
+#cv.imshow('desert',desert)
+#cv.imshow('closedDesert',closedDesert)
+#cv.imshow('swamp',swamp)
+#cv.imshow('closedSwamp',closedSwamp)
+#cv.imshow('mountain',mountain)
+#cv.imshow('closedmountain',closedmountain)
 
 
 
-cv2.waitKey()
+cv.waitKey()
 
 #Hvis vi har det i HSV kunne man så måske bruge en template af en hsv farvet krone fordi den er rød med gul-ish i midten
 #En I hver rotation selvfølgelig
