@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import cv2 as cv
 
 class Tile:
     def __init__(self,fileName,type):
@@ -11,24 +12,34 @@ class Tile:
         self.valMeans = self.data[:,4]
         self.valSTDs  = self.data[:,5]
         self.name = type
-    def normDist(x,feature):
-        return 1/(np.std(feature)*np.sqrt(2*np.pi))*np.e**(-1/2*((x-np.mean(feature))/np.std(feature))**2)
-    def calcLogLikelihood(self,hueMean,hueSTD,satMean,satSTD,valMean,valSTD):
-        hueLikelihood = np.log(normDist(hueMean,self.hueMeans))+np.log(normDist(hueSTD,self.hueSTDs))
-        satLikelihood = np.log(normDist(satMean,self.satMeans))+np.log(normDist(satSTD,self.satSTDs))
-        valLikelihood = np.log(normDist(valMean,self.valMeans))+np.log(normDist(valSTD,self.valSTDs))
+    def normDist(self,x,mean,std):
+        
+        return 1/(std*np.sqrt(2*np.pi))*np.e**(-1/2*((x-mean)/std)**2)
+    def calcLogLikelihood(self,img):
+        img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
+        hueMean = np.mean(img[:,:,0])
+        hueSTD  = np.std(img[:,:,0])
+        satMean = np.mean(img[:,:,1])
+        satSTD  = np.std(img[:,:,1])
+        valMean = np.mean(img[:,:,2])
+        valSTD  = np.std(img[:,:,2])
+        hueLikelihood = np.log(self.normDist(hueMean,np.mean(self.hueMeans),np.std(self.hueMeans)))+np.log(self.normDist(hueSTD,np.mean(self.hueSTDs),np.std(self.hueSTDs)))
+        satLikelihood = np.log(self.normDist(satMean,np.mean(self.satMeans),np.std(self.satMeans)))+np.log(self.normDist(satSTD,np.mean(self.satSTDs),np.std(self.satSTDs)))
+        valLikelihood = np.log(self.normDist(valMean,np.mean(self.valMeans),np.std(self.valMeans)))+np.log(self.normDist(valSTD,np.mean(self.valSTDs),np.std(self.valSTDs)))
         return hueLikelihood + satLikelihood + valLikelihood
-forest = Tile("f.dat","forest")
-ocean  = Tile("o.dat","ocean")
-grass = Tile("g.dat","grasslands")
-swamp = Tile("s.dat","Swamp")
-mountain=Tile("m.dat","Mountain")
-#forestC = Tile("fc.dat","forestC")
-#oceanC = Tile("oc.dat","oceanC")
-#grassC = Tile("gc.dat","grasslandsC")
-#swampC = Tile("sc.dat","SwampC")
-#mountainC=Tile("mc.dat","MountainC")
-home=Tile("home.dat","Home")
+forest = Tile("f.dat","f")
+ocean  = Tile("o.dat","o")
+grass = Tile("g.dat","g")
+swamp = Tile("s.dat","s")
+mountain=Tile("m.dat","m")
+wheat = Tile("w.dat","w")
+forestC = Tile("fc.dat","F")
+oceanC = Tile("oc.dat","O")
+grassC = Tile("gc.dat","G")
+swampC = Tile("sc.dat","S")
+mountainC=Tile("mc.dat","M")
+wheatC = Tile("wc.dat","W")
+home=Tile("home.dat","H")
 #forestCrown = Tile("fc.dat","forest with crown")
 def compareData():
     arr = [forest,ocean,grass,swamp,mountain,home]#forestC,oceanC,grassC,swampC,mountainC,
