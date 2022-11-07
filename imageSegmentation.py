@@ -29,5 +29,5 @@ def segment(img):
             
 testImg = cv.imread(path, 1)
 
-cv.imshow("picture",testImg)
-cv.waitKey(0)
+#cv.imshow("picture",testImg)
+#cv.waitKey(0)
