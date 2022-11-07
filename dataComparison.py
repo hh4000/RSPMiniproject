@@ -11,7 +11,13 @@ class Tile:
         self.valMeans = self.data[:,4]
         self.valSTDs  = self.data[:,5]
         self.name = type
-
+    def normDist(x,feature):
+        return 1/(np.std(feature)*np.sqrt(2*np.pi))*np.e**(-1/2*((x-np.mean(feature))/np.std(feature))**2)
+    def calcLogLikelihood(self,hueMean,hueSTD,satMean,satSTD,valMean,valSTD):
+        hueLikelihood = np.log(normDist(hueMean,self.hueMeans))+np.log(normDist(hueSTD,self.hueSTDs))
+        satLikelihood = np.log(normDist(satMean,self.satMeans))+np.log(normDist(satSTD,self.satSTDs))
+        valLikelihood = np.log(normDist(valMean,self.valMeans))+np.log(normDist(valSTD,self.valSTDs))
+        return hueLikelihood + satLikelihood + valLikelihood
 forest = Tile("f.dat","forest")
 ocean  = Tile("o.dat","ocean")
 grass = Tile("g.dat","grasslands")
