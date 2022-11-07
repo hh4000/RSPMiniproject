@@ -1,16 +1,8 @@
 import cv2 as cv
 import numpy as np
 from imageSegmentation import segment
-path = r"C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\Training set\2.jpg"
+path = r"C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\Training set\8.jpg"
 
-
-answerKey = np.chararray((5,5))
-for y in range(5):
-    for x in range(5):
-        print("type of tile: " +str(x+1)+","+str(y+1))
-        type = input()
-        answerKey[y,x] = type
-print(answerKey)
 def testCorrect():
     print("Is this correct? \"Y\" or \"N\"")
     answer = input()
@@ -21,6 +13,18 @@ def testCorrect():
     else:
         print("Invalid answer")
         testCorrect()
+
+print(path)
+testCorrect()
+
+answerKey = np.chararray((5,5))
+for y in range(5):
+    for x in range(5):
+        print("type of tile: " +str(x+1)+","+str(y+1))
+        type = input()
+        answerKey[y,x] = type
+print(answerKey)
+
 testCorrect()
 
 typeDict = {
