@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 from imageSegmentation import segment
-path = r"C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\Training set\8.jpg"
+path = r"C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\Training set\9.jpg"
 
 def testCorrect():
     print("Is this correct? \"Y\" or \"N\"")
@@ -40,7 +40,8 @@ typeDict = {
     b'W':"wc.dat",
     b'm':"m.dat",
     b'M':"mc.dat",
-    b'H':"home.dat"
+    b'H':"home.dat",
+    b'n':"null.dat"
     
 }
 img = cv.imread(path, 1)

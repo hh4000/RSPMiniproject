@@ -42,7 +42,7 @@ wheatC = Tile("wc.dat","W")
 home=Tile("home.dat","H")
 #forestCrown = Tile("fc.dat","forest with crown")
 def compareData():
-    arr = [forest,ocean,grass,swamp,mountain,home]#forestC,oceanC,grassC,swampC,mountainC,
+    arr = [forest,ocean,grass,swamp,mountain,wheat,home,forestC,oceanC,grassC,swampC,mountainC,wheatC]#forestC,oceanC,grassC,swampC,mountainC,
     names = []
     x1 = np.linspace(0,179,1000)
     x2 = np.linspace(0,255,1000)
@@ -67,3 +67,4 @@ def compareData():
     ax[1,2].set_title("Value std")
     ax[0,0].legend(names)
     plt.show()
+#compareData()
