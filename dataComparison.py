@@ -27,26 +27,21 @@ class Tile:
         satLikelihood = np.log(self.normDist(satMean,np.mean(self.satMeans),np.std(self.satMeans)))+np.log(self.normDist(satSTD,np.mean(self.satSTDs),np.std(self.satSTDs)))
         valLikelihood = np.log(self.normDist(valMean,np.mean(self.valMeans),np.std(self.valMeans)))+np.log(self.normDist(valSTD,np.mean(self.valSTDs),np.std(self.valSTDs)))
         return hueLikelihood + satLikelihood + valLikelihood
-forest = Tile("f.dat","f")
-ocean  = Tile("o.dat","o")
-grass = Tile("g.dat","g")
-swamp = Tile("s.dat","s")
-mountain=Tile("m.dat","m")
-wheat = Tile("w.dat","w")
-forestC = Tile("fc.dat","F")
-oceanC = Tile("oc.dat","O")
-grassC = Tile("gc.dat","G")
-swampC = Tile("sc.dat","S")
-mountainC=Tile("mc.dat","M")
-wheatC = Tile("wc.dat","W")
-home=Tile("home.dat","H")
+forest = Tile("data/f.dat","f")
+ocean  = Tile("data/o.dat","o")
+grass  = Tile("data/g.dat","g")
+swamp  = Tile("data/s.dat","s")
+mountain=Tile("data/m.dat","m")
+wheat  = Tile("data/w.dat","w")
+home   = Tile("data/home.dat","H")
+null   = Tile("data/null.dat","n")
 #forestCrown = Tile("fc.dat","forest with crown")
 def compareData():
-    arr = [forest,ocean,grass,swamp,mountain,wheat,home,forestC,oceanC,grassC,swampC,mountainC,wheatC]#forestC,oceanC,grassC,swampC,mountainC,
+    arr = [forest,ocean,grass,swamp,mountain,wheat,home,null]
     names = []
     x1 = np.linspace(0,179,1000)
     x2 = np.linspace(0,255,1000)
-    x3 = np.linspace(0,75,500)
+    x3 = np.linspace(0,100,500)
     fig,ax = plt.subplots(2,3)
     def normDist(x,std,mean):
         return 1/(std*np.sqrt(2*np.pi))*np.e**(-1/2*((x-mean)/std)**2)
@@ -67,4 +62,4 @@ def compareData():
     ax[1,2].set_title("Value std")
     ax[0,0].legend(names)
     plt.show()
-#compareData()
+compareData()
