@@ -8,12 +8,12 @@ file_path = r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing minip
 img = cv2.imread(file_path,1)
 img_gray = cv2.imread(file_path,0)
 #Loading all the templates for each type of tile
-Grass = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Grass temp.jpg',0)
-Forest = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Forest temp.jpg',0)
-Ocean = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Ocean temp.jpg',0)
-Swamp = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Swamp temp.jpg',0)
-Wheat = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Wheat temp.jpg',0)
-Mountain = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Mountain temp.jpg',0)
+Grass =  cv2.imread('Templates\Grass temp.jpg',0)
+Forest = cv2.imread('Templates\Forest temp.jpg',0)
+Ocean =  cv2.imread('Templates\Ocean temp.jpg',0)
+Swamp =  cv2.imread('Templates\Swamp temp.jpg',0)
+Wheat =  cv2.imread('Templates\Wheat temp.jpg',0)
+Mountain=cv2.imread('Templates\Mountain temp.jpg',0)
 
 
 def rotate(template):
