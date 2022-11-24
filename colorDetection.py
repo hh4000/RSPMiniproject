@@ -1,8 +1,12 @@
 import cv2
 import numpy as np
 
+#silas path
+#path = r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Training set\2.jpg'
+#hans path
+path = r'C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\Training set\2.jpg'
 
-img = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Training set\2.jpg',1)
+img = cv2.imread(path,1)
 
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 cv2.imshow('hsv',hsv)
