@@ -12,9 +12,13 @@ class Tile:
         self.valMeans = self.data[:,4]
         self.valSTDs  = self.data[:,5]
         self.name = type
+        self.numPoints=len(self.data)
     def normDist(self,x,mean,std):
-        
         return 1/(std*np.sqrt(2*np.pi))*np.e**(-1/2*((x-mean)/std)**2)
+    
+    def calibrateForOccurance(self,totalPoints):
+        self.occurance = self.numPoints/totalPoints
+        #print("Occurance set to: ", self.occurance)
     def calcLogLikelihood(self,img):
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         hueMean = np.mean(img[:,:,0])
@@ -23,8 +27,14 @@ class Tile:
         satSTD  = np.std(img[:,:,1])
         valMean = np.mean(img[:,:,2])
         valSTD  = np.std(img[:,:,2])
+        if self.normDist(hueMean,np.mean(self.hueMeans),np.std(self.hueMeans)) == 0 or self.normDist(hueSTD,np.mean(self.hueSTDs),np.std(self.hueSTDs)) == 0:
+            return -np.inf
         hueLikelihood = np.log(self.normDist(hueMean,np.mean(self.hueMeans),np.std(self.hueMeans)))+np.log(self.normDist(hueSTD,np.mean(self.hueSTDs),np.std(self.hueSTDs)))
+        if self.normDist(satMean,np.mean(self.satMeans),np.std(self.satMeans)) == 0 or self.normDist(satSTD,np.mean(self.satSTDs),np.std(self.satSTDs)) == 0:
+            return -np.inf
         satLikelihood = np.log(self.normDist(satMean,np.mean(self.satMeans),np.std(self.satMeans)))+np.log(self.normDist(satSTD,np.mean(self.satSTDs),np.std(self.satSTDs)))
+        if self.normDist(valMean,np.mean(self.valMeans),np.std(self.valMeans)) == 0 or self.normDist(valSTD,np.mean(self.valSTDs),np.std(self.valSTDs)) == 0:
+            return -np.inf
         valLikelihood = np.log(self.normDist(valMean,np.mean(self.valMeans),np.std(self.valMeans)))+np.log(self.normDist(valSTD,np.mean(self.valSTDs),np.std(self.valSTDs)))
         return hueLikelihood + satLikelihood + valLikelihood
 forest = Tile("data/f.dat","f")
@@ -35,6 +45,21 @@ mountain=Tile("data/m.dat","m")
 wheat  = Tile("data/w.dat","w")
 home   = Tile("data/home.dat","H")
 null   = Tile("data/null.dat","n")
+
+totalNumPoints = forest.numPoints+ocean.numPoints+grass.numPoints+swamp.numPoints+mountain.numPoints+wheat.numPoints+home.numPoints+null.numPoints
+#print(totalNumPoints)
+
+forest.calibrateForOccurance(totalNumPoints)
+ocean.calibrateForOccurance(totalNumPoints)
+grass.calibrateForOccurance(totalNumPoints)
+swamp.calibrateForOccurance(totalNumPoints)
+mountain.calibrateForOccurance(totalNumPoints)
+wheat.calibrateForOccurance(totalNumPoints)
+home.calibrateForOccurance(totalNumPoints)
+null.calibrateForOccurance(totalNumPoints)
+#for a in [forest,ocean,grass,swamp,mountain,wheat,home,null]:
+#    print(a.name,": ",a.occurance)
+
 #forestCrown = Tile("fc.dat","forest with crown")
 def compareData():
     arr = [forest,ocean,grass,swamp,mountain,wheat,home,null]
@@ -62,4 +87,4 @@ def compareData():
     ax[1,2].set_title("Value std")
     ax[0,0].legend(names)
     plt.show()
-compareData()
+#compareData()

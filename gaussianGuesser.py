@@ -3,7 +3,7 @@ import numpy as np
 import cv2 as cv
 import dataComparison as dc
 
-path = r"C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\TrainingCropped\66.jpg"
+path = r"C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\TrainingCropped\5.jpg"
 
 inputImg = cv.imread(path,1)
 tileArr = [dc.forest,dc.ocean,dc.grass,dc.swamp,dc.mountain,dc.wheat,dc.null]
@@ -22,16 +22,22 @@ def guessTiles(image):
                 HPose = [y,x]
     y,x=HPose
     result[y,x] = dc.home.name
-    print((np.max(highestlikelihood)))
+    #print((np.max(highestlikelihood)))
     for y,imgrow in enumerate(segmentedImage):
         for x,img in enumerate(imgrow):
             if result[y,x] != b"H":
-                likelihoodArr = [tile.calcLogLikelihood(img) for tile in tileArr ]
-                likelihoodArr[6] = likelihoodArr[6]-np.log(5)
+                likelihoodArr = [tile.calcLogLikelihood(img)+np.log(tile.occurance) for tile in tileArr ]
                 maxIndex = likelihoodArr.index(max(likelihoodArr))
-                result[y,x] = tileArr[maxIndex].name
-    return result
 
-print(guessTiles(inputImg))
-cv.imshow("original image", inputImg)
-cv.waitKey(0)
+                result[y,x] = tileArr[maxIndex].name
+    return result.decode()
+
+#result = guessTiles(inputImg)
+#print(result)
+##cv.imshow("original image", inputImg)
+#for y in range(5):
+#    for x in range(5):
+#        inputImg = cv.putText(inputImg,result[y,x],(x*100+25,y*100+75),cv.FONT_ITALIC,2,(30,30,220),4)
+#cv.imshow("Image with answers", inputImg)
+#cv.waitKey(0)
+
