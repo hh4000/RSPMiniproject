@@ -49,14 +49,14 @@ null   = Tile("data/null.dat","n")
 totalNumPoints = forest.numPoints+ocean.numPoints+grass.numPoints+swamp.numPoints+mountain.numPoints+wheat.numPoints+home.numPoints+null.numPoints
 #print(totalNumPoints)
 
-forest.calibrateForoccurence(totalNumPoints)
-ocean.calibrateForoccurence(totalNumPoints)
-grass.calibrateForoccurence(totalNumPoints)
-swamp.calibrateForoccurence(totalNumPoints)
-mountain.calibrateForoccurence(totalNumPoints)
-wheat.calibrateForoccurence(totalNumPoints)
-home.calibrateForoccurence(totalNumPoints)
-null.calibrateForoccurence(totalNumPoints)
+forest.calibrateForOccurence(totalNumPoints)
+ocean.calibrateForOccurence(totalNumPoints)
+grass.calibrateForOccurence(totalNumPoints)
+swamp.calibrateForOccurence(totalNumPoints)
+mountain.calibrateForOccurence(totalNumPoints)
+wheat.calibrateForOccurence(totalNumPoints)
+home.calibrateForOccurence(totalNumPoints)
+null.calibrateForOccurence(totalNumPoints)
 #for a in [forest,ocean,grass,swamp,mountain,wheat,home,null]:
 #    print(a.name,": ",a.occurence)
 
