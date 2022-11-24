@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import cv2
-import imutils
+
 
 #loading our base image
 file_path = r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\TrainingCropped\36.jpg'
