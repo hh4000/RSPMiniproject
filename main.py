@@ -2,7 +2,7 @@ import numpy as np
 import cv2 as cv
 from gaussianGuesser import guessTiles
 from Grassfire import grassfire
-
+from Crown_detection import ToHans as crownDetection
 
 image = cv.imread("testCropped/7.jpg",1)
 def calculateScore(img):
@@ -16,11 +16,7 @@ def calculateScore(img):
         int: point value of board given
     """
     guessedTiles = guessTiles(img)
-    numCrowns = np.array([[2,1,0,0,0], #Placeholder until function is available
-                          [0,0,0,0,0],
-                          [0,1,0,0,1],
-                          [0,1,0,1,0],
-                          [0,0,1,0,1]])
+    numCrowns = crownDetection(img)
     objects = grassfire(guessedTiles)
     tiles = np.zeros((len(np.unique(objects))))#Array of connected pieces
     crowns= np.zeros((len(np.unique(objects))))#Array of crowns of respective connected pieces of tiles array

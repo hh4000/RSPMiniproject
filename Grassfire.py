@@ -53,10 +53,11 @@ def grassfire(image):
         for y, row in enumerate(image):
             for x, pixel in enumerate(row):
                 next_id = ignite_pixel(image, (y,x), next_id, char)
+    return image
     
     
 
-grassfire(img2)
-print(img2)
+#grassfire(img2)
+#print(img2)
 
 

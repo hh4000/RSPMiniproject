@@ -3,17 +3,13 @@ import numpy as np
 import cv2
 
 
-#loading our base image
-file_path = r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\TrainingCropped\36.jpg'
-img1 = cv2.imread(file_path,1)
-img_gray = cv2.imread(file_path,0)
 #Loading all the templates for each type of tile
-Grass = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Grass temp.jpg',0)
-Forest = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Forest temp.jpg',0)
-Ocean = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Ocean temp.jpg',0)
-Swamp = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Swamp temp.jpg',0)
-Wheat = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Wheat temp.jpg',0)
-Mountain = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Mountain temp.jpg',0)
+Grass =  cv2.imread('Templates\Grass temp.jpg',0)
+Forest = cv2.imread('Templates\Forest temp.jpg',0)
+Ocean =  cv2.imread('Templates\Ocean temp.jpg',0)
+Swamp =  cv2.imread('Templates\Swamp temp.jpg',0)
+Wheat =  cv2.imread('Templates\Wheat temp.jpg',0)
+Mountain=cv2.imread('Templates\Mountain temp.jpg',0)
 
 
 def rotate(template):
@@ -63,7 +59,7 @@ box = np.array([[0,0,0,0], [0,0,0,0]],dtype=object)
 
 def templateMatch(img, template, thresh):
     #cv2 does template matchtin 
-    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
     #It is then saved in terms of a threshold
     loc = np.where( res >= thresh)  
     #Outputs 2 arrays. Combine these arrays to get x,y coordinates - take x from one array and y from the other
@@ -115,7 +111,7 @@ def finding_crown_pos(boxes):
 
 def ToHans(img):
     #Does all the functions
-    matching(img)
+    matching(cv2.cvtColor(img,cv2.COLOR_BGR2GRAY))
     nms = NMS(box,0.4)
     draw(nms, img)
     crowns = finding_crown_pos(nms)
