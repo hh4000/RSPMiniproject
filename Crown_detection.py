@@ -5,24 +5,15 @@ import imutils
 
 #loading our base image
 file_path = r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\TrainingCropped\36.jpg'
-img = cv2.imread(file_path,1)
+img1 = cv2.imread(file_path,1)
 img_gray = cv2.imread(file_path,0)
 #Loading all the templates for each type of tile
-<<<<<<<< HEAD:Crown detection.py
 Grass = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Grass temp.jpg',0)
 Forest = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Forest temp.jpg',0)
 Ocean = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Ocean temp.jpg',0)
 Swamp = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Swamp temp.jpg',0)
 Wheat = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Wheat temp.jpg',0)
 Mountain = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Mountain temp.jpg',0)
-========
-Grass =  cv2.imread('Templates\Grass temp.jpg',0)
-Forest = cv2.imread('Templates\Forest temp.jpg',0)
-Ocean =  cv2.imread('Templates\Ocean temp.jpg',0)
-Swamp =  cv2.imread('Templates\Swamp temp.jpg',0)
-Wheat =  cv2.imread('Templates\Wheat temp.jpg',0)
-Mountain=cv2.imread('Templates\Mountain temp.jpg',0)
->>>>>>>> cde1d70ae77c0620fc3908bfac9738411988a405:Crown_detection.py
 
 
 def rotate(template):
@@ -84,12 +75,12 @@ def templateMatch(img, template, thresh):
         box =np.append(box, [[pt[0], pt[1], (pt[0]+20), (pt[1]+20)]], axis=0)
     
 #This function uses the boxes coordinates to draw the them on the image
-def draw(boxes):
+def draw(boxes, img):
     for x in range(boxes.shape[0]):
         cv2.rectangle(img, (boxes[x,0], boxes[x,1]), (boxes[x,2], boxes[x,3]), (0, 0, 255), 1)
 
 #Function that rotates all the templates and then does templatematching on all of them
-def matching():
+def matching(img):
     global box
     match1 = rotate(Grass)
     match2 = rotate(Forest)
@@ -122,15 +113,17 @@ def finding_crown_pos(boxes):
         num_crowns[y,x] = num_crowns[y,x] + 1
     return num_crowns 
 
-def ToHans():
+def ToHans(img):
     #Does all the functions
-    matching()
+    matching(img)
     nms = NMS(box,0.4)
-    draw(nms)
+    draw(nms, img)
     crowns = finding_crown_pos(nms)
     return crowns
 
-#cv2.imshow("Matched image", img)
+
+#ToHans(img1)
+#cv2.imshow("Matched image", img1)
 #cv2.waitKey()
 #cv2.destroyAllWindows()
 
