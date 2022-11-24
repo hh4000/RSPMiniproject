@@ -15,17 +15,9 @@ Swamp = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processin
 Wheat = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Wheat temp.jpg',0)
 Mountain = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Mountain temp.jpg',0)
 
-def sharpen(img):
-    filter = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-    img=cv2.filter2D(img,-1,filter)
-    return img
-
-def blur(img):
-    kernel = np.ones((5,5),np.float32)/25
-    img = cv2.filter2D(img,-1,kernel)
-    return img
 
 def rotate(template):
+    #A function that rotates each template 3 times and saves it as a numpy array
     r1 = template
     r2 = cv2.rotate(r1,cv2.ROTATE_90_CLOCKWISE)
     r3 = cv2.rotate(r1,cv2.ROTATE_90_COUNTERCLOCKWISE)
@@ -66,31 +58,28 @@ def NMS(boxes, overlapThresh = 0.4):
     #return only the boxes at the remaining indices
     return boxes[indices].astype(int)
 
-
+#Create a global array that can be added to for each use of the templateMatch function
 box = np.array([[0,0,0,0], [0,0,0,0]],dtype=object)
 
 def templateMatch(img, template, thresh):
+    #cv2 does template matchtin 
     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
-
+    #It is then saved in terms of a threshold
     loc = np.where( res >= thresh)  
-    #Outputs 2 arrays. Combine these arrays to get x,y coordinates - take x from one array and y from the other.
+    #Outputs 2 arrays. Combine these arrays to get x,y coordinates - take x from one array and y from the other
     global box
     #Reminder: ZIP function is an iterator of tuples where first item in each iterator is paired together,
     #then the second item and then third, etc. 
     for pt in zip(*loc[::-1]):   #-1 to swap the values as we assign x and y coordinate to draw the rectangle. 
-    #Draw rectangle around each object. We know the top left (pt), draw rectangle to match the size of the template image.
+        #The coordinates are then saved in the global box array for use later
         box =np.append(box, [[pt[0], pt[1], (pt[0]+20), (pt[1]+20)]], axis=0)
     
-    
-    #cv2.imshow("Matched image", img2)
-    #cv2.waitKey()
-    #cv2.destroyAllWindows()
-
+#This function uses the boxes coordinates to draw the them on the image
 def draw(boxes):
     for x in range(boxes.shape[0]):
         cv2.rectangle(img, (boxes[x,0], boxes[x,1]), (boxes[x,2], boxes[x,3]), (0, 0, 255), 1)
 
-
+#Function that rotates all the templates and then does templatematching on all of them
 def matching():
     global box
     match1 = rotate(Grass)
@@ -107,18 +96,20 @@ def matching():
         templateMatch(img,match4[x],0.75)
         templateMatch(img,match5[x],0.6)
         templateMatch(img,match6[x],0.8)
+    #I had to do this because of the way that I set up the variable, since I can't append before I give the correct size
     box = np.delete(box,0,0)
     box = np.delete(box,0,0)
 
-
+#Does all the functions
 matching()
 nms = NMS(box,0.4)
 draw(nms)
 
-
-
-def finding_box_pos(boxes):
+#Then a function that finds the number of crowns in terms of a 5x5 grid of the entire picture
+def finding_crown_pos(boxes):
+    #I define an array that is 5x5 since the board can at max be 5x5
     num_crowns = np.zeros((5,5))
+    #I then use the first two coordinates used to draw the crowns to determine how many crowns are in each tile
     for rows in range(boxes.shape[0]):
         x = int(boxes[rows,0]/100)
         y = int(boxes[rows,1]/100)
@@ -127,7 +118,7 @@ def finding_box_pos(boxes):
 
     
 
-finding_box_pos(nms)
+finding_crown_pos(nms)
 
 cv2.imshow("Matched image", img)
 cv2.waitKey()
