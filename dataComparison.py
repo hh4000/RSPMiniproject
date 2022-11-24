@@ -16,9 +16,9 @@ class Tile:
     def normDist(self,x,mean,std):
         return 1/(std*np.sqrt(2*np.pi))*np.e**(-1/2*((x-mean)/std)**2)
     
-    def calibrateForOccurance(self,totalPoints):
-        self.occurance = self.numPoints/totalPoints
-        #print("Occurance set to: ", self.occurance)
+    def calibrateForOccurence(self,totalPoints):
+        self.occurence = self.numPoints/totalPoints
+        #print("Occurence set to: ", self.occurence)
     def calcLogLikelihood(self,img):
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         hueMean = np.mean(img[:,:,0])
@@ -49,16 +49,16 @@ null   = Tile("data/null.dat","n")
 totalNumPoints = forest.numPoints+ocean.numPoints+grass.numPoints+swamp.numPoints+mountain.numPoints+wheat.numPoints+home.numPoints+null.numPoints
 #print(totalNumPoints)
 
-forest.calibrateForOccurance(totalNumPoints)
-ocean.calibrateForOccurance(totalNumPoints)
-grass.calibrateForOccurance(totalNumPoints)
-swamp.calibrateForOccurance(totalNumPoints)
-mountain.calibrateForOccurance(totalNumPoints)
-wheat.calibrateForOccurance(totalNumPoints)
-home.calibrateForOccurance(totalNumPoints)
-null.calibrateForOccurance(totalNumPoints)
+forest.calibrateForoccurence(totalNumPoints)
+ocean.calibrateForoccurence(totalNumPoints)
+grass.calibrateForoccurence(totalNumPoints)
+swamp.calibrateForoccurence(totalNumPoints)
+mountain.calibrateForoccurence(totalNumPoints)
+wheat.calibrateForoccurence(totalNumPoints)
+home.calibrateForoccurence(totalNumPoints)
+null.calibrateForoccurence(totalNumPoints)
 #for a in [forest,ocean,grass,swamp,mountain,wheat,home,null]:
-#    print(a.name,": ",a.occurance)
+#    print(a.name,": ",a.occurence)
 
 #forestCrown = Tile("fc.dat","forest with crown")
 def compareData():

@@ -26,7 +26,7 @@ def guessTiles(image):
     for y,imgrow in enumerate(segmentedImage):
         for x,img in enumerate(imgrow):
             if result[y,x] != b"H":
-                likelihoodArr = [tile.calcLogLikelihood(img)+np.log(tile.occurance) for tile in tileArr ]
+                likelihoodArr = [tile.calcLogLikelihood(img)+np.log(tile.occurence) for tile in tileArr ]
                 maxIndex = likelihoodArr.index(max(likelihoodArr))
 
                 result[y,x] = tileArr[maxIndex].name
