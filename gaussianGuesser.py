@@ -6,27 +6,32 @@ import dataComparison as dc
 path = r"C:\Users\hansh\OneDrive - Aalborg Universitet\Programmer\3. semester\RSP\Miniproject\TrainingCropped\5.jpg"
 
 inputImg = cv.imread(path,1)
-tileArr = [dc.forest,dc.ocean,dc.grass,dc.swamp,dc.mountain,dc.wheat,dc.null]
+
 def guessTiles(image):
     segmentedImage = segment(image)
     result = np.chararray((5,5))
-    
+    tileArr = [dc.forest,dc.ocean,dc.grass,dc.swamp,dc.mountain,dc.wheat,dc.null]
     #This part no worke
-    HPose = []
-    highestlikelihood = -np.inf
+    
+    HPoseArr = []
+    HlikelihoodArr = []
+    homePose = []
     for y,imgrow in enumerate(segmentedImage):
         for x,img in enumerate(imgrow):
-            likelihood = dc.home.calcLogLikelihood(img)
-            if likelihood > highestlikelihood:
-                highestlikelihood = likelihood
-                HPose = [y,x]
-    y,x=HPose
-    result[y,x] = dc.home.name
+            HLogLikelihood = dc.home.calcLogLikelihood(img)
+            likelihoodArr = [tile.calcLogLikelihood(img)+np.log(tile.occurence) for tile in tileArr]
+            if max(likelihoodArr) < HLogLikelihood:
+                HPoseArr.append([y,x])
+                HlikelihoodArr.append(HLogLikelihood)
+    if len(HPoseArr)>0:
+        maxIndex = HlikelihoodArr.index(max(HlikelihoodArr))                
+        homePose=HPoseArr[maxIndex]
+        result[homePose[0],homePose[1]] = dc.home.name
     #print((np.max(highestlikelihood)))
     for y,imgrow in enumerate(segmentedImage):
         for x,img in enumerate(imgrow):
-            if result[y,x] != b"H":
-                likelihoodArr = [tile.calcLogLikelihood(img)+np.log(tile.occurence) for tile in tileArr ]
+            if [y,x] != homePose :
+                likelihoodArr = [tile.calcLogLikelihood(img)+np.log(tile.occurence) for tile in tileArr]
                 maxIndex = likelihoodArr.index(max(likelihoodArr))
 
                 result[y,x] = tileArr[maxIndex].name
