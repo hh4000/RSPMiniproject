@@ -57,7 +57,7 @@ def grassfire(image):
     
     
 
-grassfire(img2)
-print(img2)
+#grassfire(img2)
+#print(img2)
 
 
