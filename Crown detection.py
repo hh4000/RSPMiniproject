@@ -4,16 +4,16 @@ import cv2
 import imutils
 
 #loading our base image
-file_path = r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Training set\36.jpg'
+file_path = r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\TrainingCropped\36.jpg'
 img = cv2.imread(file_path,1)
 img_gray = cv2.imread(file_path,0)
 #Loading all the templates for each type of tile
-Grass = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Grass temp.jpg',0)
-Forest = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Forest temp.jpg',0)
-Ocean = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Ocean temp.jpg',0)
-Swamp = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Swamp temp.jpg',0)
-Wheat = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Wheat temp.jpg',0)
-Mountain = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\Mountain temp.jpg',0)
+Grass = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Grass temp.jpg',0)
+Forest = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Forest temp.jpg',0)
+Ocean = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Ocean temp.jpg',0)
+Swamp = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Swamp temp.jpg',0)
+Wheat = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Wheat temp.jpg',0)
+Mountain = cv2.imread(r'C:\Users\silas\Desktop\Robotics 3. semester\Image processing miniproject\RSPMiniproject\Templates\Mountain temp.jpg',0)
 
 
 def rotate(template):
@@ -100,10 +100,7 @@ def matching():
     box = np.delete(box,0,0)
     box = np.delete(box,0,0)
 
-#Does all the functions
-matching()
-nms = NMS(box,0.4)
-draw(nms)
+
 
 #Then a function that finds the number of crowns in terms of a 5x5 grid of the entire picture
 def finding_crown_pos(boxes):
@@ -114,15 +111,19 @@ def finding_crown_pos(boxes):
         x = int(boxes[rows,0]/100)
         y = int(boxes[rows,1]/100)
         num_crowns[y,x] = num_crowns[y,x] + 1
-    return num_crowns
+    return num_crowns 
 
-    
+def ToHans():
+    #Does all the functions
+    matching()
+    nms = NMS(box,0.4)
+    draw(nms)
+    crowns = finding_crown_pos(nms)
+    return crowns
 
-finding_crown_pos(nms)
-
-cv2.imshow("Matched image", img)
-cv2.waitKey()
-cv2.destroyAllWindows()
+#cv2.imshow("Matched image", img)
+#cv2.waitKey()
+#cv2.destroyAllWindows()
 
 
 
