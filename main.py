@@ -4,7 +4,7 @@ from gaussianGuesser import guessTiles
 from Grassfire import grassfire
 from Crown_detection import ToHans as crownDetection
 
-image = cv.imread("testCropped/7.jpg",1)
+image = cv.imread("testCropped/19.jpg",1)
 def calculateScore(img):
     """Takes 500x500 pixel cropped perspectivecorrected image of 
     king domino board and calculates point value
@@ -16,7 +16,9 @@ def calculateScore(img):
         int: point value of board given
     """
     guessedTiles = guessTiles(img)
+    #print(guessedTiles)
     numCrowns = crownDetection(img)
+    #print(numCrowns)
     objects = grassfire(guessedTiles)
     tiles = np.zeros((len(np.unique(objects))))#Array of connected pieces
     crowns= np.zeros((len(np.unique(objects))))#Array of crowns of respective connected pieces of tiles array
